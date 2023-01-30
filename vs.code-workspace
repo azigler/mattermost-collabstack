@@ -1,0 +1,45 @@
+{
+	"folders": [
+		{
+			"name": "Collabstack Workshop 🤝",
+			"path": "."
+		},
+		{
+			"name": "Scripts 📂",
+			"path": "./scripts"
+		},
+		{
+			"name": "Containers 📦",
+			"path": "./containers"
+		}
+	],
+	"settings": {
+		"eslint.validate": [
+			"javascript",
+			"javascriptreact",
+			"typescript",
+			"typescriptreact"
+		],
+		"editor.codeActionsOnSave": {
+			"source.fixAll.eslint": true
+		},
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.formatOnSave": true,
+		"[jsonc]": {
+			"editor.defaultFormatter": "vscode.json-language-features"
+		},
+		"editor.wordWrap": "on",
+		"prettier.semi": false,
+		"prettier.ignorePath": ".gitignore",
+		"editor.tabSize": 2,
+	},
+	"extensions": {
+		"recommendations": [
+			"esbenp.prettier-vscode",
+			"dbaeumer.vscode-eslint",
+			"csstools.postcss",
+			"sysoev.language-stylus",
+			"ms-azuretools.vscode-docker"
+		]
+	}
+}

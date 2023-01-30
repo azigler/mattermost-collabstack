@@ -1,0 +1,26 @@
+---
+version: "3.9"
+networks:
+  default:
+    name: collabstack
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:15.8.0-ce.0
+    container_name: gitlab
+    platform: linux/amd64
+    restart: unless-stopped
+    hostname: localhost
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        gitlab_rails['gitlab_shell_ssh_port'] = 2255
+        mattermost_external_url 'http://localhost:8066'
+    ports:
+      - 80:80
+      - 2255:22
+      - 8066:8066
+    volumes:
+      - ./gitlab/config:/etc/gitlab
+      - ./gitlab/logs:/var/log/gitlab
+      - ./gitlab/data:/var/opt/gitlab
+      - ./gitlab/nginx:/nginx
+    shm_size: 256m
