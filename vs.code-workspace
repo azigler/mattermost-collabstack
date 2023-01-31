@@ -11,6 +11,10 @@
 		{
 			"name": "Containers 📦",
 			"path": "./containers"
+		},
+		{
+			"name": "Terraform 🪨",
+			"path": "../__REPOS/hashicat-aws"
 		}
 	],
 	"settings": {

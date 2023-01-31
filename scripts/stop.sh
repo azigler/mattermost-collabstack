@@ -4,5 +4,5 @@
 
 cd ../containers
 
-docker image prune --force
-docker compose down
+sudo docker image prune --force
+sudo docker compose down

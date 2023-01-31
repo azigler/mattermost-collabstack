@@ -4,5 +4,5 @@
 
 cd ../containers
 
-docker compose pull
-docker compose up --detach --build --force-recreate
+sudo docker compose pull
+sudo docker compose up --detach --build --force-recreate
