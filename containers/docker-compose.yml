@@ -7,7 +7,6 @@ services:
   gitlab:
     image: gitlab/gitlab-ce:15.8.0-ce.0
     container_name: gitlab
-    platform: linux/amd64
     restart: unless-stopped
     hostname: gitlab.${COLLABSTACK_HOSTNAME}
     environment:
@@ -51,7 +50,6 @@ services:
       - /var/log/nginx
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      - ./nginx/dhparams4096.pem}:/dhparams4096.pem
     environment:
       - TZ=UTC
     ports:
