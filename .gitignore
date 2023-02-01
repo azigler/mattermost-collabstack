@@ -1,5 +1,4 @@
 .TODO
-exports.sh
 .DS_Store
 containers/**
 !containers/docker-compose.yml

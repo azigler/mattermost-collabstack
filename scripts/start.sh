@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# source ./exports.sh
+source ./exports.sh
 
 cd ../containers
 
