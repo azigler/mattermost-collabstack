@@ -50,5 +50,5 @@ services:
       - DB_TYPE=sqlite
       - DB_STORAGE=db.sqlite
     volumes:
-      - $PALLADIUM_DIR/containers/wikijs/config:/config
-      - $PALLADIUM_DIR/containers/wikijs/data:/data
+      - ./wikijs/config:/config
+      - ./wikijs/data:/data
