@@ -9,18 +9,46 @@ services:
     container_name: gitlab
     platform: linux/amd64
     restart: unless-stopped
-    hostname: localhost
+    hostname: gitlab.$COLLABSTACK_HOSTNAME
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         gitlab_rails['gitlab_shell_ssh_port'] = 2255
-        mattermost_external_url 'http://localhost:8066'
+        mattermost_external_url 'http://mattermost.$COLLABSTACK_HOSTNAME'
     ports:
-      - 80:80
       - 2255:22
-      - 8066:8066
     volumes:
       - ./gitlab/config:/etc/gitlab
       - ./gitlab/logs:/var/log/gitlab
       - ./gitlab/data:/var/opt/gitlab
       - ./gitlab/nginx:/nginx
     shm_size: 256m
+  swag:
+    container_name: swag
+    image: lscr.io/linuxserver/swag:latest
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=UTC
+      - URL=$COLLABSTACK_HOSTNAME
+      - SUBDOMAINS=gitlab,mattermost,wiki
+      - VALIDATION=http
+    ports:
+      - 80:80
+    volumes:
+      - ./swag/config:/config
+  wikijs:
+    container_name: wikijs
+    image: lscr.io/linuxserver/wikijs:latest
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=UTC
+      - DB_TYPE=sqlite
+      - DB_STORAGE=db.sqlite
+    volumes:
+      - $PALLADIUM_DIR/containers/wikijs/config:/config
+      - $PALLADIUM_DIR/containers/wikijs/data:/data
