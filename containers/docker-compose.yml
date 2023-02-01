@@ -9,11 +9,11 @@ services:
     container_name: gitlab
     platform: linux/amd64
     restart: unless-stopped
-    hostname: gitlab.$COLLABSTACK_HOSTNAME
+    hostname: gitlab.${COLLABSTACK_HOSTNAME}
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         gitlab_rails['gitlab_shell_ssh_port'] = 2255
-        mattermost_external_url 'http://mattermost.$COLLABSTACK_HOSTNAME'
+        mattermost_external_url 'http://mattermost.${COLLABSTACK_HOSTNAME}'
     ports:
       - 2255:22
     volumes:
@@ -22,23 +22,6 @@ services:
       - ./gitlab/data:/var/opt/gitlab
       - ./gitlab/nginx:/nginx
     shm_size: 256m
-  swag:
-    container_name: swag
-    image: lscr.io/linuxserver/swag:latest
-    restart: unless-stopped
-    cap_add:
-      - NET_ADMIN
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=UTC
-      - URL=$COLLABSTACK_HOSTNAME
-      - SUBDOMAINS=gitlab,mattermost,wiki
-      - VALIDATION=http
-    ports:
-      - 80:80
-    volumes:
-      - ./swag/config:/config
   wikijs:
     container_name: wikijs
     image: lscr.io/linuxserver/wikijs:latest
@@ -52,3 +35,25 @@ services:
     volumes:
       - ./wikijs/config:/config
       - ./wikijs/data:/data
+  nginx:
+    depends_on:
+      - gitlab
+    container_name: nginx
+    image: nginx:alpine
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 100
+    read_only: true
+    tmpfs:
+      - /var/run
+      - /var/cache
+      - /var/log/nginx
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/dhparams4096.pem}:/dhparams4096.pem
+    environment:
+      - TZ=UTC
+    ports:
+      - 443:443
+      - 80:80
