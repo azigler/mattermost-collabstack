@@ -2,6 +2,5 @@
 .DS_Store
 containers/**
 !containers/nginx/
-!containers/nginx/conf.d/
-!containers/nginx/conf.d/**
+!containers/nginx/default.conf
 !containers/docker-compose.yml
