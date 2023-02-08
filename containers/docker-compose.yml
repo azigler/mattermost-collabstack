@@ -8,11 +8,11 @@ services:
     image: gitlab/gitlab-ce:15.8.0-ce.0
     container_name: gitlab
     restart: unless-stopped
-    hostname: gitlab.${COLLABSTACK_HOSTNAME}
+    hostname: gitlab.nginx.${_SANDBOX_ID}.instruqt.io
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         gitlab_rails['gitlab_shell_ssh_port'] = 2255
-        mattermost_external_url 'http://mattermost.${COLLABSTACK_HOSTNAME}'
+        mattermost_external_url 'https://mattermost.nginx.${_SANDBOX_ID}.instruqt.io'
     ports:
       - 2255:22
     volumes:
@@ -49,7 +49,7 @@ services:
       - /var/cache
       - /var/log/nginx
     volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/default.conf:/etc/nginx/default.conf:ro
     environment:
       - TZ=UTC
     ports:
