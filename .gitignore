@@ -1,6 +1,7 @@
 .TODO
 .DS_Store
 containers/**
-!containers/nginx/
-!containers/nginx/default.conf
-!containers/docker-compose.yml
+!containers/gitlab/
+!containers/gitlab/nginx/
+!containers/gitlab/nginx/default.conf
+!containers/docker-compose.example.yml

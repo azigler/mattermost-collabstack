@@ -13,8 +13,12 @@ services:
       GITLAB_OMNIBUS_CONFIG: |
         gitlab_rails['gitlab_shell_ssh_port'] = 2255
         mattermost_external_url 'https://mattermost.nginx.${_SANDBOX_ID}.instruqt.io'
+        nginx['custom_nginx_config'] = "include /nginx/*.conf;"
+        nginx['enable'] = false
+        web_server['external_users'] = ['www-data']
     ports:
-      - 2255:22
+      - "2255:22"
+      - "8000:80"
     volumes:
       - ./gitlab/config:/etc/gitlab
       - ./gitlab/logs:/var/log/gitlab
@@ -34,24 +38,3 @@ services:
     volumes:
       - ./wikijs/config:/config
       - ./wikijs/data:/data
-  nginx:
-    depends_on:
-      - gitlab
-    container_name: nginx
-    image: nginx:alpine
-    restart: unless-stopped
-    security_opt:
-      - no-new-privileges:true
-    pids_limit: 100
-    read_only: true
-    tmpfs:
-      - /var/run
-      - /var/cache
-      - /var/log/nginx
-    volumes:
-      - ./nginx/default.conf:/etc/nginx/default.conf:ro
-    environment:
-      - TZ=UTC
-    ports:
-      - 443:443
-      - 80:80
