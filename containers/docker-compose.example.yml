@@ -12,9 +12,14 @@ services:
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         gitlab_rails['gitlab_shell_ssh_port'] = 2255
+        external_url "https://gitlab.nginx.${_SANDBOX_ID}.instruqt.io"
+        letsencrypt['enable'] = false
         mattermost_external_url 'https://mattermost.nginx.${_SANDBOX_ID}.instruqt.io'
         mattermost_nginx['ssl_certificate'] = "/etc/gitlab/ssl/cert.pem"
         mattermost_nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/privkey.pem"
+        nginx['ssl_certificate'] = "/etc/gitlab/ssl/cert.pem"
+        nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/privkey.pem"
+        nginx['redirect_http_to_https'] = true
     ports:
       - "2255:22"
       - "8000:80"
