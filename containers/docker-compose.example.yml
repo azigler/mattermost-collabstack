@@ -13,9 +13,9 @@ services:
       GITLAB_OMNIBUS_CONFIG: |
         gitlab_rails['gitlab_shell_ssh_port'] = 2255
         mattermost_external_url 'https://mattermost.nginx.${_SANDBOX_ID}.instruqt.io'
-        nginx['custom_nginx_config'] = "include /nginx/*.conf;"
-        nginx['enable'] = false
-        web_server['external_users'] = ['www-data']
+        mattermost_nginx['redirect_http_to_https'] = true
+        mattermost_nginx['ssl_certificate'] = "/etc/gitlab/ssl/mattermost-nginx.crt"
+        mattermost_nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/mattermost-nginx.key"
     ports:
       - "2255:22"
       - "8000:80"
@@ -23,7 +23,6 @@ services:
       - ./gitlab/config:/etc/gitlab
       - ./gitlab/logs:/var/log/gitlab
       - ./gitlab/data:/var/opt/gitlab
-      - ./gitlab/nginx:/nginx
     shm_size: 256m
   wikijs:
     container_name: wikijs
