@@ -52,7 +52,8 @@ services:
     volumes:
       - ./containers/wikijs/config:/config
       - ./containers/wikijs/data:/data
-    ports: "3000:3000"
+    ports:
+      - "3000:3000"
   nextcloud:
     container_name: nextcloud
     image: lscr.io/linuxserver/nextcloud:latest
