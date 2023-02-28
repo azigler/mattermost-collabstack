@@ -1,6 +1,8 @@
 # Mattermost Collabstack Workshop
 
-> SCaLE 20x - Pasadena, California - 2023
+> [SCaLE 20x - Pasadena, California - 2023](https://www.socallinuxexpo.org/scale/20x/presentations/workshop-how-build-custom-collaboration-stack-open-source-software)
+
+March 9th // 10am to 1pm // Room 212
 
 ## How to Build a Custom Collaboration Stack with Open Source Software
 
