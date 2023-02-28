@@ -1,8 +1,5 @@
 ---
-version: "3.9"
-networks:
-  default:
-    name: collabstack
+version: "3.3"
 services:
   gitlab:
     image: gitlab/gitlab-ce:15.8.0-ce.0
@@ -16,6 +13,12 @@ services:
         nginx['listen_port'] = 8000
         nginx['listen_https'] = false
         letsencrypt['enable'] = false
+        grafana['enable'] = true
+        grafana['admin_password'] = 'admin'
+        grafana['disable_login_form'] = false
+        grafana['metrics_enabled'] = true
+        grafana['alerting_enabled'] = true
+        nginx['redirect_http_to_https'] = false
         nginx['proxy_set_headers'] = {
           "X-Forwarded-Proto" => "https",
           "X-Forwarded-Ssl" => "on"
@@ -58,8 +61,6 @@ services:
     container_name: nextcloud
     image: lscr.io/linuxserver/nextcloud:latest
     restart: unless-stopped
-    depends_on:
-      - postgres
     environment:
       - PUID=1000
       - PGID=1000
@@ -68,26 +69,4 @@ services:
       - ./containers/nextcloud/config:/config
       - ./containers/nextcloud/data:/data
     ports:
-      - "3001:80"
-  collabora:
-    image: collabora/code:latest
-    container_name: collabora
-    environment:
-      - domain=collabora
-      - username=root
-      - username=root_password
-      - server_name=collabstack
-      - extra_params=--o:ssl.enable=false
-    ports:
-      - "9980:9980"
-  postgres:
-    container_name: postgres
-    image: postgres:latest
-    restart: unless-stopped
-    environment:
-      - TZ=UTC
-      - POSTGRES_PASSWORD=postgres_root
-      - POSTGRES_DB=mattermost
-    volumes:
-      - ./containers/postgres/data:/var/lib/postgresql/data
-      - ./containers/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - "3001:443"
